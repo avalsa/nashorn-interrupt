@@ -1,10 +1,7 @@
 package com.github.avalsa;
 
 import com.github.avalsa.interrupt.RewriteNodeVisitor;
-import jdk.nashorn.internal.ir.Block;
-import jdk.nashorn.internal.ir.FunctionNode;
-import jdk.nashorn.internal.ir.Node;
-import jdk.nashorn.internal.ir.WhileNode;
+import jdk.nashorn.internal.ir.*;
 import jdk.nashorn.internal.ir.visitor.SimpleNodeVisitor;
 import jdk.nashorn.internal.parser.Parser;
 import jdk.nashorn.internal.runtime.Context;
@@ -39,7 +36,42 @@ public class RewriteNodeTest {
                         return super.enterWhileNode(whileNode);
                     }
                 });
+    }
 
+    @Test
+    public void rewriteForLoopWorks() {
+        String js = " var i; for (i = 0; i >= 0; i++) { invokeSomeFunc() }";
+        FunctionNode origin = parse(js);
+        Node afterModify = origin.accept(new RewriteNodeVisitor());
+        assertNotSame(origin, afterModify);
+        afterModify.accept(
+                new SimpleNodeVisitor() {
+                    @Override
+                    public boolean enterForNode(ForNode forNode) {
+                        Block st = forNode.getBody();
+                        assertTrue(st.getStatements().get(0).toString().contains("__interrupt_check"));
+                        assertTrue(st.getStatements().get(1).toString().contains("invokeSomeFunc()"));
+                        return super.enterForNode(forNode);
+                    }
+                });
+    }
+
+    @Test
+    public void rewriteFunctionsWorks() {
+        String js = "myFunc = function(value) { return myFunc(value + 1); }; f(0);";
+        FunctionNode origin = parse(js);
+        Node afterModify = origin.accept(new RewriteNodeVisitor());
+        assertNotSame(origin, afterModify);
+        afterModify.accept(
+                new SimpleNodeVisitor() {
+                    @Override
+                    public boolean enterFunctionNode(FunctionNode functionNode) {
+                        Block st = functionNode.getBody();
+                        assertTrue(st.getStatements().get(0).toString().contains("__interrupt_check"));
+                        assertTrue(st.getStatements().get(1).toString().contains("myFunc"));
+                        return super.enterFunctionNode(functionNode);
+                    }
+                });
     }
 
     private static FunctionNode parse(String js) {

@@ -18,6 +18,8 @@ import static net.bytebuddy.implementation.bytecode.assign.Assigner.Typing.DYNAM
  * define __interrupt_check function for script scope
  */
 public class InterruptsFunctionAdderTransformer implements AgentBuilder.Transformer {
+    static final String INTERRUPT_FUNCTION_NAME = "__interrupt_check";
+
     @Override
     public DynamicType.Builder<?> transform(DynamicType.Builder<?> builder, TypeDescription typeDescription, ClassLoader classLoader, JavaModule javaModule) {
         new ClassInjector.UsingUnsafe(classLoader).inject(Collections.singletonMap(
@@ -34,7 +36,7 @@ public class InterruptsFunctionAdderTransformer implements AgentBuilder.Transfor
         public static void onExit(@Advice.This(typing = DYNAMIC) Object returned) {
 //            System.out.println("constructor");
             NashornScriptEngine scriptEngine = (NashornScriptEngine) returned;
-            scriptEngine.put("__interrupt_check", new InterruptsChecker());
+            scriptEngine.put(INTERRUPT_FUNCTION_NAME, new InterruptsChecker());
         }
     }
 }
