@@ -1,7 +1,7 @@
 package org.nashornutils;
 
+import jdk.nashorn.internal.ir.Block;
 import jdk.nashorn.internal.ir.FunctionNode;
-import jdk.nashorn.internal.ir.IfNode;
 import jdk.nashorn.internal.ir.Node;
 import jdk.nashorn.internal.ir.WhileNode;
 import jdk.nashorn.internal.ir.visitor.SimpleNodeVisitor;
@@ -33,9 +33,9 @@ public class RewriteNodeTest {
                 new SimpleNodeVisitor() {
                     @Override
                     public boolean enterWhileNode(WhileNode whileNode) {
-                        IfNode st = (IfNode) whileNode.getBody().getStatements().get(0);
-                        assertTrue(st.getTest().toString().contains("__interrupt_check"));
-                        assertTrue(st.getPass().toString().contains("invokeSomeFunc()"));
+                        Block st = whileNode.getBody();
+                        assertTrue(st.getStatements().get(0).toString().contains("__interrupt_check"));
+                        assertTrue(st.getStatements().get(1).toString().contains("invokeSomeFunc()"));
                         return super.enterWhileNode(whileNode);
                     }
                 });

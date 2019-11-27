@@ -8,30 +8,26 @@ public class RewriteNodeVisitor extends jdk.nashorn.internal.ir.visitor.SimpleNo
 
     @Override
     public Node leaveWhileNode(WhileNode whileNode) {
-        IfNode ifContinue = new IfNode(
-                whileNode.getLineNumber(),
+        Block whileWithCheck = new Block(
                 whileNode.getToken(),
                 whileNode.getFinish(),
-                new CallNode(
-                        whileNode.getLineNumber(),
+                new ExpressionStatement(whileNode.getLineNumber(),
                         whileNode.getToken(),
                         whileNode.getFinish(),
-                        new IdentNode(
+                        new CallNode(
+                                whileNode.getLineNumber(),
                                 whileNode.getToken(),
                                 whileNode.getFinish(),
-                                "__interrupt_check"
-                        ), Collections.emptyList(),
-                        false
-                ),
-                whileNode.getBody(),
-                null
-        );
+                                new IdentNode(
+                                        whileNode.getToken(),
+                                        whileNode.getFinish(),
+                                        "__interrupt_check"
+                                ), Collections.emptyList(),
+                                false
+                        )
+                ), new BlockStatement(whileNode.getBody()));
 
-        Block ifBlock = new Block(
-                whileNode.getToken(),
-                whileNode.getFinish(),
-                ifContinue);
-        return whileNode.setBody(this.getLexicalContext(), ifBlock);
+        return whileNode.setBody(this.getLexicalContext(), whileWithCheck);
     }
 
 }
