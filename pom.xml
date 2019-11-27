@@ -91,7 +91,7 @@
                                 <transformer
                                         implementation='org.apache.maven.plugins.shade.resource.ManifestResourceTransformer'>
                                     <manifestEntries>
-                                        <Premain-Class>org.nashornutils.Premain</Premain-Class>
+                                        <Premain-Class>com.github.avalsa.Premain</Premain-Class>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>

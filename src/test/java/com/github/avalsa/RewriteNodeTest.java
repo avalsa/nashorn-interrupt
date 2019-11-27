@@ -1,5 +1,6 @@
-package org.nashornutils;
+package com.github.avalsa;
 
+import com.github.avalsa.interrupt.RewriteNodeVisitor;
 import jdk.nashorn.internal.ir.Block;
 import jdk.nashorn.internal.ir.FunctionNode;
 import jdk.nashorn.internal.ir.Node;
@@ -11,7 +12,6 @@ import jdk.nashorn.internal.runtime.ErrorManager;
 import jdk.nashorn.internal.runtime.Source;
 import jdk.nashorn.internal.runtime.options.Options;
 import org.junit.Test;
-import org.nashornutils.interrupt.RewriteNodeVisitor;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;

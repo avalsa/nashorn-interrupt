@@ -1,4 +1,4 @@
-package org.nashornutils.interrupt;
+package com.github.avalsa.interrupt;
 
 public class InterruptsChecker implements Runnable {
     @Override

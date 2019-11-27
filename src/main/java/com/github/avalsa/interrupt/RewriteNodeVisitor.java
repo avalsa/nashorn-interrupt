@@ -1,4 +1,4 @@
-package org.nashornutils.interrupt;
+package com.github.avalsa.interrupt;
 
 import jdk.nashorn.internal.ir.*;
 

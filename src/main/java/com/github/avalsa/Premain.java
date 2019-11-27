@@ -1,9 +1,9 @@
-package org.nashornutils;
+package com.github.avalsa;
 
 import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.matcher.ElementMatchers;
-import org.nashornutils.interrupt.InterruptChecksAdderTransformer;
-import org.nashornutils.interrupt.InterruptsFunctionAdderTransformer;
+import com.github.avalsa.interrupt.InterruptChecksAdderTransformer;
+import com.github.avalsa.interrupt.InterruptsFunctionAdderTransformer;
 
 import java.lang.instrument.Instrumentation;
 

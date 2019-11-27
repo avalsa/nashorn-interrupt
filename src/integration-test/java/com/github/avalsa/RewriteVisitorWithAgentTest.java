@@ -1,4 +1,4 @@
-package org.nashornutils;
+package com.github.avalsa;
 
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import org.junit.Test;
