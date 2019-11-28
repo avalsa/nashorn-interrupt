@@ -11,6 +11,10 @@
 
     <name>nashorn-interrupt</name>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <dependencies>
         <!-- https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy -->
         <dependency>
@@ -149,7 +153,9 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.1</version>
-                <configuration><skipExec>false</skipExec></configuration>
+                <configuration>
+                    <skipExec>false</skipExec>
+                </configuration>
                 <executions>
                     <execution>
                         <id>test</id>
@@ -169,7 +175,9 @@
                         <phase>integration-test</phase>
                         <configuration>
                             <testClassesDirectory>${basedir}/target/integration-test-classes</testClassesDirectory>
-                            <argLine>-javaagent:${basedir}/target/${project.name}-${project.version}.${project.packaging}</argLine>
+                            <argLine>
+                                -javaagent:${basedir}/target/${project.name}-${project.version}.${project.packaging}
+                            </argLine>
                         </configuration>
                     </execution>
                 </executions>

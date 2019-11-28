@@ -40,7 +40,7 @@ public class RewriteVisitorWithAgentTest {
         AtomicBoolean awaited = new AtomicBoolean(false);
         new Thread(() -> {
             try {
-                Thread.sleep(4000);  //wait 4 sec and interrupt
+                Thread.sleep(1000);  //wait sec and interrupt
             } catch (InterruptedException e) {
                 throw new AssertionError();
             }
